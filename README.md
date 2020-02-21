@@ -1,4 +1,4 @@
-# SoalShiftSISOP20_modul1_Y35
+# SoalShiftSISOP20_modul1_T10
 
 ## Jawaban Soal Shift Sistem Operasi 2020
 
