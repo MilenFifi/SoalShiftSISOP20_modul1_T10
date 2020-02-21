@@ -11,7 +11,6 @@ Oleh:
 
 ## Daftar Isi
 * [1. Filter Data dengan AWK](#1-filter-data-dengan-awk)
-* [2. Password](#2-password)
 * [3. PDKT Kusuma](#3-pdkt-kusuma)
 - - - 
 
@@ -32,10 +31,6 @@ awk -F'\t' 'FNR > 1{SUM[$11] +=$21} END{for (j in SUM) print j, SUM[j]}' Sample-
 echo "c) 10 nama Produk profit terkecil: "
 awk -F'\t' '{if($11 =="District of Columbia") FNR > 1{SUM[$17] +=$18} END{for (j in SUM) print j, SUM[j]}' Sample-Superstore.tsv | sort -gk2  | awk 'FNR < 11{printf $1$2$3$4$5$6$7$8$9}'
 ```
-
-## 2. Password
-
-
 
 ## 3.PDKT Kusuma
 #### soal3.sh
