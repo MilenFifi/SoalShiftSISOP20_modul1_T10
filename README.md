@@ -32,7 +32,7 @@ echo "c) 10 nama Produk profit terkecil: "
 awk -F'\t' '{if($11 =="District of Columbia" && $11 =="New Hampshire") FNR > 1{SUM[$17] +=$18} END{for (j in SUM) print j, SUM[j]}' Sample-Superstore.tsv | sort -gk2  | awk 'FNR < 11{printf $1$2$3$4$5$6$7$8$9}'
 ```
 ####Penjelasan
-#####Soal
+#####Soal \n
 Whits adalah seorang mahasiswa teknik informatika. Dia mendapatkan tugas praktikum
 untuk membuat laporan berdasarkan data yang ada pada file “Sample-Superstore.tsv”.
 a.Tentukan wilayah bagian (region) mana yang memiliki keuntungan (profit) paling
