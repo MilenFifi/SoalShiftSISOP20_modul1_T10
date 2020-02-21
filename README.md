@@ -47,6 +47,45 @@ a. menentukan region pada $13 yang memiliki profit $21 paling kecil dengan ``awk
 b. menentukan state pada $11 yang memiliki profit paling kecil dangan ``awk -F'\t' 'FNR > 1{SUM[$11] +=$21} END{for (j in SUM) print j, SUM[j]}'`` lalu sorting dan print 2 state dengan nilainya ``| sort -gk2  | awk 'FNR < 3{printf"%s \n", $1$2$3$4$5$6}'``<br />
 c. setelah ditemukan di 1b bahwa state profit terkecil adalah District of Columbia dan New Hampshire maka dibuat code ``awk -F'\t' '{if($11 =="District of Columbia" && $11 =="New Hampshire") FNR > 1{SUM[$17] +=$18} END{for (j in SUM) print j, SUM[j]}'`` dan di sort serta print ``| sort -gk2  | awk 'FNR < 11{printf $1$2$3$4$5$6$7$8$9}'``->salah/belum benar
 
+#### soal2.sh
+
+(#a&b)
+#!/bin/bash
+PWD=`pwd`
+
+read -r pass <<< "`cat /dev/urandom | tr -cd 'a-zA-Z0-9' | fold -w 28 | head -n 1`"
+read -r name <<< "`echo $1 | tr -cd 'a-zA-Z'`"
+
+echo $pass > $PWD/$name.txt
+
+
+(#c)
+#!/bin/bash
+PWD=`pwd`
+pusing=$(ls -di $PWD/"${1}" | cut -d ' ' -f 1)
+fs=$(df $PWD/"${1}" | tail -1 | awk '{print $1}')
+crtime=$(sudo debugfs -R 'stat <'"${pusing}"'>' "${fs}" 2>/dev/null | grep -oP 'crtime.*--\s*\K.*' | cut -d ' ' -f 4 | cut -d ':' -f 1)
+
+filename="`echo $1 | cut -d "." -f 1`"
+
+encrypt=`echo $filename | tr 'a-z' $(echo {a..z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/') | tr 'A-Z' $(echo {A..Z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/')`
+
+mv $PWD/$filename.txt $PWD/$encrypt.txt
+
+(#d)
+#!/bin/bash
+PWD=`pwd`
+pusing=$(ls -di $PWD/"${1}" | cut -d ' ' -f 1)
+fs=$(df $PWD/"${1}" | tail -1 | awk '{print $1}')
+crtime=$(sudo debugfs -R 'stat <'"${pusing}"'>' "${fs}" 2>/dev/null | grep -oP 'crtime.*--\s*\K.*' | cut -d ' ' -f 4 | cut -d ':' -f 1)
+
+filename="`echo $1 | cut -d "." -f 1`"
+
+decrypt=`echo $filename | tr $( echo {a..z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/') 'a-z' | tr $(echo {A..Z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/') 'A-Z'`
+
+mv $PWD/$filename.txt $PWD/$decrypt.txt
+
+
 ## 3.PDKT Kusuma
 #### soal3.sh
 ```
