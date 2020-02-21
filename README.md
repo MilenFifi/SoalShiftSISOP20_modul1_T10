@@ -94,6 +94,9 @@ Setelah tidak ada gambar di current directory, maka lakukan backup seluruh log m
 ekstensi ".log.bak". <br />
 
 Solusi:<br />
-a. 
-b. 5, pada menit ke-5. 6-23/8, mulai jam 6-23 per 8 jam sekali * * 0-5, pada hari minggu-jum'at tanpa sabtu yang dalam nomer yaitu 6
+a. <br />
+b. 5, pada menit ke-5. 6-23/8, mulai jam 6-23 per 8 jam sekali * * 0-5, pada hari minggu-jum'at tanpa sabtu yang dalam nomer yaitu 6<br />
 c. belum
+
+
+Dan baru tahu bahwa Readme dikerjakan saat lapres :(
