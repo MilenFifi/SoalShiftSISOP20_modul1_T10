@@ -49,6 +49,7 @@ c. setelah ditemukan di 1b bahwa state profit terkecil adalah District of Columb
 
 #### soal2.sh
 
+```
 (#a&b)
 #!/bin/bash
 PWD=`pwd`
@@ -84,7 +85,7 @@ filename="`echo $1 | cut -d "." -f 1`"
 decrypt=`echo $filename | tr $( echo {a..z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/') 'a-z' | tr $(echo {A..Z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/') 'A-Z'`
 
 mv $PWD/$filename.txt $PWD/$decrypt.txt
-
+```
 
 ## 3.PDKT Kusuma
 #### soal3.sh
