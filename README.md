@@ -10,7 +10,7 @@ Oleh:
 * 05311840000042 I Komang Aditya Mahadiharja
 
 ## Daftar Isi
-* [1. Filter Data dengan AWK](##1-filter-data-dengan-awk)
+* [1. Filter Data dengan AWK](#1-filter-data-dengan-awk)
 * [3. PDKT Kusuma](#3-pdkt-kusuma)
 - - - 
 
