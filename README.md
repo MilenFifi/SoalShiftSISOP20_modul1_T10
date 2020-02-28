@@ -44,8 +44,8 @@ sedikit berdasarkan 2 negara bagian (state) hasil poin b<br />
 
 Solusi:<br />
 a. menentukan region pada $13 yang memiliki profit $21 paling kecil dengan ``awk -F'\t' 'FNR > 1{SUM[$13] +=$21} END{for (j in SUM) print j, SUM[j]}' `` lalu sorting dan print ``| sort -gk2 | awk 'FNR < 2{print$1}'``<br />
-b. menentukan state pada $11 yang memiliki profit paling kecil dangan serta disorting ``awk awk -F"\t" 'FNR > 1{if($13 =="Central" ){SUM[$11] +=$21}} END{for (j in SUM) print j","SUM[j]| "sort -t ',' -g -k2"}'`` print 2 state dengan nilainya ``head -n 2``<br />
-c. setelah ditemukan di 1b bahwa state profit terkecil adalah District of Columbia dan New Hampshire maka dibuat code yang sekalian sorting ``awk -F"\t" 'FNR>1{if(($11 =="Texas" || $11 =="Illinois")&& $13 == "Central"){SUM[$17]+=$21;}} END {for (j in SUM) print j"="SUM[j] | "sort -t '=' -g -k2" }'`` dan print 10 nilai ``head -n 10``
+b. menentukan state pada $11 yang memiliki profit paling kecil dengan syarat Central  serta disorting ``awk awk -F"\t" 'FNR > 1{if($13 =="Central" ){SUM[$11] +=$21}} END{for (j in SUM) print j","SUM[j]| "sort -t ',' -g -k2"}'`` print 2 state ``head -n 2``<br />
+c. setelah ditemukan di 1b bahwa state profit terkecil adalah Texas dan Illinois dengan syarat lain yaitu Central dari soal 1a maka dibuat code yang sekalian sorting ``awk -F"\t" 'FNR>1{if(($11 =="Texas" || $11 =="Illinois")&& $13 == "Central"){SUM[$17]+=$21;}} END {for (j in SUM) print j"="SUM[j] | "sort -t '=' -g -k2" }'`` dan print 10 nilai ``head -n 10``
 ![Output Soal 1](https://raw.githubusercontent.com/MilenFifi/SoalShiftSISOP20_modul1_T10/master/1.PNG)
 
 ## 3. PDKT Kusuma
