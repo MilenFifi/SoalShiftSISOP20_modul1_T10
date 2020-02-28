@@ -10,12 +10,12 @@ Oleh:
 * 05311840000042 I Komang Aditya Mahadiharja
 
 ## Daftar Isi
-* [1. Filter Data dengan AWK](#1-filter-data-dengan-awk)
+* [1. Filter Data dengan AWK](##1-filter-data-dengan-awk)
 * [3. PDKT Kusuma](#3-pdkt-kusuma)
 - - - 
 
 ## 1. Filter Data dengan AWK
-#### soal1.sh
+### soal1.sh
 ```
 #!/bin/bash
 
@@ -25,11 +25,11 @@ awk -F'\t' 'FNR > 1{SUM[$13] +=$21} END{for (j in SUM) print j, SUM[j]}' Sample-
 
 #(b)
 echo "b) 2 State profit terkecil: "
-awk -F'\t' 'FNR > 1{SUM[$11] +=$21} END{for (j in SUM) print j, SUM[j]}' Sample-Superstore.tsv | sort -gk2  | awk 'FNR < 3{printf"%s \n", $1$2$3$4$5$6}'
+awk -F"\t" 'FNR > 1{if($13 =="Central" ){SUM[$11] +=$21}} END{for (j in SUM) print j","SUM[j]| "sort -t ',' -g -k2"}' Sample-Superstore.tsv | head -n 2
 
 #(c)
 echo "c) 10 nama Produk profit terkecil: "
-awk -F'\t' '{if($11 =="District of Columbia" && $11 =="New Hampshire") FNR > 1{SUM[$17] +=$18} END{for (j in SUM) print j, SUM[j]}' Sample-Superstore.tsv | sort -gk2  | awk 'FNR < 11{printf $1$2$3$4$5$6$7$8$9}'
+awk -F"\t" 'FNR>1{if(($11 =="Texas" || $11 =="Illinois")&& $13 == "Central"){SUM[$17]+=$21;}} END {for (j in SUM) print j"="SUM[j] | "sort -t '=' -g -k2" }' Sample-Superstore.tsv | head -n 10
 ```
 Penjelasan<br />
 Soal<br />
@@ -44,50 +44,11 @@ sedikit berdasarkan 2 negara bagian (state) hasil poin b<br />
 
 Solusi:<br />
 a. menentukan region pada $13 yang memiliki profit $21 paling kecil dengan ``awk -F'\t' 'FNR > 1{SUM[$13] +=$21} END{for (j in SUM) print j, SUM[j]}' `` lalu sorting dan print ``| sort -gk2 | awk 'FNR < 2{print$1}'``<br />
-b. menentukan state pada $11 yang memiliki profit paling kecil dangan ``awk -F'\t' 'FNR > 1{SUM[$11] +=$21} END{for (j in SUM) print j, SUM[j]}'`` lalu sorting dan print 2 state dengan nilainya ``| sort -gk2  | awk 'FNR < 3{printf"%s \n", $1$2$3$4$5$6}'``<br />
-c. setelah ditemukan di 1b bahwa state profit terkecil adalah District of Columbia dan New Hampshire maka dibuat code ``awk -F'\t' '{if($11 =="District of Columbia" && $11 =="New Hampshire") FNR > 1{SUM[$17] +=$18} END{for (j in SUM) print j, SUM[j]}'`` dan di sort serta print ``| sort -gk2  | awk 'FNR < 11{printf $1$2$3$4$5$6$7$8$9}'``->salah/belum benar
+b. menentukan state pada $11 yang memiliki profit paling kecil dangan serta disorting ``awk awk -F"\t" 'FNR > 1{if($13 =="Central" ){SUM[$11] +=$21}} END{for (j in SUM) print j","SUM[j]| "sort -t ',' -g -k2"}'`` print 2 state dengan nilainya ``head -n 2``<br />
+c. setelah ditemukan di 1b bahwa state profit terkecil adalah District of Columbia dan New Hampshire maka dibuat code yang sekalian sorting ``awk -F"\t" 'FNR>1{if(($11 =="Texas" || $11 =="Illinois")&& $13 == "Central"){SUM[$17]+=$21;}} END {for (j in SUM) print j"="SUM[j] | "sort -t '=' -g -k2" }'`` dan print 10 nilai ``head -n 10``
+![Output Soal 1](https://raw.githubusercontent.com/MilenFifi/SoalShiftSISOP20_modul1_T10/master/1.PNG)
 
-#### soal2.sh
-
-```
-(#a&b)
-#!/bin/bash
-PWD=`pwd`
-
-read -r pass <<< "`cat /dev/urandom | tr -cd 'a-zA-Z0-9' | fold -w 28 | head -n 1`"
-read -r name <<< "`echo $1 | tr -cd 'a-zA-Z'`"
-
-echo $pass > $PWD/$name.txt
-
-
-(#c)
-#!/bin/bash
-PWD=`pwd`
-pusing=$(ls -di $PWD/"${1}" | cut -d ' ' -f 1)
-fs=$(df $PWD/"${1}" | tail -1 | awk '{print $1}')
-crtime=$(sudo debugfs -R 'stat <'"${pusing}"'>' "${fs}" 2>/dev/null | grep -oP 'crtime.*--\s*\K.*' | cut -d ' ' -f 4 | cut -d ':' -f 1)
-
-filename="`echo $1 | cut -d "." -f 1`"
-
-encrypt=`echo $filename | tr 'a-z' $(echo {a..z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/') | tr 'A-Z' $(echo {A..Z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/')`
-
-mv $PWD/$filename.txt $PWD/$encrypt.txt
-
-(#d)
-#!/bin/bash
-PWD=`pwd`
-pusing=$(ls -di $PWD/"${1}" | cut -d ' ' -f 1)
-fs=$(df $PWD/"${1}" | tail -1 | awk '{print $1}')
-crtime=$(sudo debugfs -R 'stat <'"${pusing}"'>' "${fs}" 2>/dev/null | grep -oP 'crtime.*--\s*\K.*' | cut -d ' ' -f 4 | cut -d ':' -f 1)
-
-filename="`echo $1 | cut -d "." -f 1`"
-
-decrypt=`echo $filename | tr $( echo {a..z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/') 'a-z' | tr $(echo {A..Z} | sed -r 's/ //g' | sed -r 's/(.{'$crtime'})(.*)/\2\1/') 'A-Z'`
-
-mv $PWD/$filename.txt $PWD/$decrypt.txt
-```
-
-## 3.PDKT Kusuma
+## 3. PDKT Kusuma
 #### soal3.sh
 ```
 #!/bin/bash
@@ -134,9 +95,8 @@ Setelah tidak ada gambar di current directory, maka lakukan backup seluruh log m
 ekstensi ".log.bak". <br />
 
 Solusi:<br />
-a. <br />
+a. ``tes=`ls | grep "pdkt_kusuma_" | cut -d "_" -f 3 | sort -n | tail -1`` ini berfungsi sebagai penamaan pada file yang diambil dari link ini dengan fungsi wget ``wget -a wget.log -O "pdkt_kusuma_$i" https://loremflickr.com/320/240/cat`` dengan penomorannya dilakukan dengan coding selain diatas dilooping sampai ketentuan yang ditentukan<br />
+![Output Soal 3a](https://raw.githubusercontent.com/MilenFifi/SoalShiftSISOP20_modul1_T10/master/3a.PNG)
 b. 5, pada menit ke-5. 6-23/8, mulai jam 6-23 per 8 jam sekali * * 0-5, pada hari minggu-jum'at tanpa sabtu yang dalam nomer yaitu 6<br />
+![Output Soal 3b](https://raw.githubusercontent.com/MilenFifi/SoalShiftSISOP20_modul1_T10/master/3b.PNG)
 c. belum
-
-
-Dan baru tahu bahwa Readme dikerjakan saat lapres :(
